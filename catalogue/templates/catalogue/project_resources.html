@@ -1,0 +1,71 @@
+{% extends "catalogue/base.html" %}
+
+{% block title %}{{ project.name }} | Research Vault{% endblock %}
+
+{% block content %}
+    <h1>{{ project.name }}</h1>
+    <p>{{ project.description|default:"Explore this project's datasets and papers." }}</p>
+
+    <section class="catalogue-section" aria-labelledby="resources-heading">
+        <h2 id="resources-heading">Project resources</h2>
+
+        <p>
+            <a class="resource-link"
+               href="{% url 'catalogue:project_list' %}">
+                ← All projects
+            </a>
+        </p>
+
+        <div class="catalogue-table-wrapper">
+            <table class="catalogue-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Resource name</th>
+                        <th scope="col">Country</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">File</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for resource in resources %}
+                        <tr>
+                            <td>
+                                <strong>{{ resource.title }}</strong>
+                                {% if resource.description %}
+                                    <span class="resource-description">
+                                        {{ resource.description|truncatewords:15 }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td>{{ resource.country|default:"—" }}</td>
+                            <td>{{ resource.year|default_if_none:"—" }}</td>
+                            <td>
+                                <span class="type-badge">
+                                    {{ resource.get_resource_type_display }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if resource.file %}
+                                    <a class="resource-link"
+                                       href="{{ resource.file.url }}"
+                                       aria-label="Open {{ resource.title }}">
+                                        Open ↗
+                                    </a>
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="empty-state">
+                                No resources are linked to this project yet.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Research Vault{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'catalogue/css/styles.css' %}?v=2">
+</head>
+<body>
+    <aside>
+       <a class="brand-link" href="{% url 'catalogue:overview' %}">
+    <img class="brand-logo"
+         src="{% static 'catalogue/images/icarda-logo.png' %}"
+         alt="ICARDA">
+       </a>
+
+<p class="sidebar-label">Research Vault</p>
+
+       <nav aria-label="Main navigation">
+    <ul>
+        <li class="{% if request.resolver_match.url_name == 'overview' %}active{% endif %}">
+            <a href="{% url 'catalogue:overview' %}">Overview</a>
+        </li>
+
+        <li class="{% if request.resolver_match.url_name == 'dataset_list' %}active{% endif %}">
+            <a href="{% url 'catalogue:dataset_list' %}">Datasets</a>
+        </li>
+
+        <li class="{% if request.resolver_match.url_name == 'paper_list' %}active{% endif %}">
+            <a href="{% url 'catalogue:paper_list' %}">Research papers</a>
+        </li>
+
+        <li class="{% if request.resolver_match.url_name == 'project_list' %}active{% endif %}">
+            <a href="{% url 'catalogue:project_list' %}">Projects</a>
+        </li>
+
+        <li>Combine datasets</li>
+    </ul>
+</nav>
+    </aside>
+
+   <main>
+    <header class="workspace-bar">
+        <div>
+            Workspace <span class="breadcrumb-divider">/</span>
+            <strong>
+                {% if request.resolver_match.url_name == 'overview' %}
+                    Overview
+                {% elif request.resolver_match.url_name == 'dataset_list' %}
+                    Datasets
+                {% elif request.resolver_match.url_name == 'paper_list' %}
+                    Research papers
+                {% elif request.resolver_match.url_name == 'project_list' %}
+                    Projects
+                {% endif %}
+            </strong>
+        </div>
+
+        <div class="researcher-profile">
+            <span>Researcher</span>
+            <span class="profile-avatar">YB</span>
+        </div>
+    </header>
+
+    <div class="page-content">
+       <div class="page-toolbar">
+    <p class="page-eyebrow">Your research, connected</p>
+
+    {% if request.user.is_staff %}
+        <a class="upload-button"
+           href="{% url 'catalogue:resource_upload' %}">
+            + Upload resource
+        </a>
+    {% endif %}
+</div>
+        {% block content %}
+        {% endblock %}
+        <section class="intro-banner" aria-label="About Research Vault">
+    <h2>A home for every discovery.</h2>
+    <p>
+        Keep papers, field data, and analysis files together —
+        organized by project and ready for your next research question.
+    </p>
+    <p class="intro-formats">Excel · Stata · SPSS · CSV · PDF</p>
+</section>
+    </div>
+</main>
+</body>
+</html>

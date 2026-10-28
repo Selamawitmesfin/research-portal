@@ -1,0 +1,44 @@
+{% extends "catalogue/base.html" %}
+
+{% block title %}Projects | Research Vault{% endblock %}
+
+{% block content %}
+    <h1>Research projects</h1>
+    <p>Organize your evidence. Build on what you know.</p>
+
+    <section class="project-section" aria-labelledby="projects-heading">
+        <h2 id="projects-heading">Project collections</h2>
+
+        <div class="project-grid">
+            {% for project in projects %}
+                <article class="project-card">
+                    <p class="project-label">Research project</p>
+
+                    <h3>{{ project.name }}</h3>
+
+                    <p>
+                        {{ project.description|default:"No description added." }}
+                    </p>
+
+                    <p>
+                        {{ project.resource_count }}
+                        resource{{ project.resource_count|pluralize }}
+                        ·
+                        {% if project.is_active %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+                    </p>
+
+                    <a class="project-browse"
+                       href="{% url 'catalogue:project_resources' project.id %}">
+                        Browse resources →
+                    </a>
+                </article>
+            {% empty %}
+                <p>No projects have been added yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

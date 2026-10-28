@@ -1,0 +1,46 @@
+{% extends "catalogue/base.html" %}
+
+{% block title %}Upload resource | Research Vault{% endblock %}
+
+{% block content %}
+    <h1>Upload resource</h1>
+    <p>Add a dataset or research paper to your workspace.</p>
+
+    <section class="upload-panel">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+                <div class="upload-field">
+                    {% if field.name == "projects" %}
+                        <fieldset>
+                            <legend>{{ field.label }}</legend>
+                            {{ field }}
+                        </fieldset>
+                    {% else %}
+                        {{ field.label_tag }}
+                        {{ field }}
+                    {% endif %}
+
+                    {{ field.errors }}
+
+                    {% if field.help_text %}
+                        <p>{{ field.help_text }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div class="upload-actions">
+                <button type="submit" class="filter-button">
+                    Upload resource
+                </button>
+                <a class="resource-link"
+                   href="{% url 'catalogue:overview' %}">
+                    Cancel
+                </a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

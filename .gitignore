@@ -1,0 +1,20 @@
+# Virtual environments
+.venv/
+venv/
+
+# Database
+db.sqlite3
+db.sqlite3-*
+
+# Uploaded files
+media/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Secrets
+.env
+.env.*
+!.env.example
